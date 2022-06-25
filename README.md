@@ -341,7 +341,7 @@ The API will return three error types when requests fail:
     - Results are paginated in groups of 10. Include a request argument to choose page number, starting from 1
 
 - `curl http://127.0.0.1:5000/categories/2/questions`
-```
+
 
 
 ```{
@@ -386,8 +386,8 @@ The API will return three error types when requests fail:
 - General:
 
     - Take catehory and previous question and returns a random question in same category.
-- curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"Art","id":"19"}, "previous_questions":[16]}'
-
+- `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"Art","id":"19"}, "previous_questions":[16]}'`
+```
 {
   "question": {
     "answer": "Jackson Pollock", 
@@ -398,3 +398,4 @@ The API will return three error types when requests fail:
   }, 
   "success": true
 }
+```
