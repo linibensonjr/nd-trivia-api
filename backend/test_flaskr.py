@@ -50,7 +50,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data["categories"])
 
     def test_404_page_not_found(self):
-        res = self.client().get("/questions?page=500")
+        res = self.client().get('/questions?page=500')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -85,6 +85,21 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(len(data['questions']), 7)
+
+    def test_start_quiz(self):
+        quiz_question = {
+            'previous_question': [],
+            'quiz_category': {
+                'type': 'Sport',
+                'id': '6'
+            }
+        }
+        res = self.client().post('/quizzes', json=quiz_question)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        
+
 
 
 # Make the tests conveniently executable
