@@ -15,7 +15,7 @@ That's where you come in! Help them finish the trivia app so they can start hold
 ![Screenshot](https://res.cloudinary.com/linibenson/image/upload/v1656193177/tis/trivia-api_sfux80.png)
 
 ## Starting and Using the Project
-### Requirement
+### Requirements
 You must have the following tools ready to run this project
 - Python3
 - Virtual Environment
@@ -26,8 +26,8 @@ You must have the following tools ready to run this project
 Before you get started, set up your virtual environment
 
 ```
-python -m virtualenv env
-env/Scripts/activate
+python -m virtualenv myenv
+myenv/Scripts/activate
 ```
 Once your virtual environment is setup and running, install the required dependencies by navigating to the `/backend` directory and running:
 
@@ -41,8 +41,8 @@ From within the `./src` directory first ensure you are working using your create
 To run the server, execute:
 
 ```
-export FLASK_APP=flaskr
-export FLASK_ENV=development
+set FLASK_APP=flaskr
+set FLASK_ENV=development
 flask run --reload
 ```
 
@@ -92,9 +92,9 @@ The API will return three error types when requests fail:
 #### GET /categories
 - General:
 
-    - Returns a list of categories, success value
-    - Results are paginated in groups of 10. Include a request argument to choose page number, starting from 1.
-- Sample: `curl http://127.0.0.1:5000/categories`
+    - Returns a list of all categories of 10 questions per page
+
+- `curl http://127.0.0.1:5000/categories`
 
 ``` {
     "categories": 
@@ -116,7 +116,7 @@ The API will return three error types when requests fail:
 
     - Returns a list of questions including pagination for every 10 questions with the number of total questions, current category and all categories
 
-- Sample: `curl http://127.0.0.1:5000/questions`
+-`curl http://127.0.0.1:5000/questions`
 
 ```
 {
@@ -210,7 +210,8 @@ The API will return three error types when requests fail:
 
 #### DELETE /questions/{question_id}
 - General:
-    - Deletes the question of the given ID if it exists. Returns the id of the deleted question, a confirmation message, success value, and total question. 
+    - Deletes the question with the given ID if it exists. 
+    - Returns the id of the deleted question, a confirmation message, success value, and total question. 
 - `curl -X DELETE http://localhost:5000/questions/41`
 
 ```
@@ -309,7 +310,7 @@ The API will return three error types when requests fail:
 
 #### POST /search
 - General:
-    - search for a question using the submitted search term. Returns the results, success value, total questions. 
+    - Searches for a question using the search term and returns all questions that matches the query. 
 - `curl http://127.0.0.1:5000/search -X POST -H "Content-Type: application/json" -d '{"searchTerm":"what was"}'`
 ```
 {
