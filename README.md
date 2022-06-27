@@ -38,7 +38,7 @@ pip install -r requirements.txt
 ##### Run the Server
 From within the `./src` directory first ensure you are working using your created virtual environment.
 
-To run the server, execute:
+To run the backend server, execute:
 
 ```
 set FLASK_APP=flaskr
@@ -54,17 +54,16 @@ The [frontend](./frontend/README.md) directory contains a complete React fronten
 
 You will need to run 
 
-
 ```
 $ npm install
 ```
-This will install the frontend dependencies.
+This will install the neccessary frontend dependencies.
 
-Finally, to get the frontend server running, execute
+Finally, run
 ```
 npm start
 ```
-Goto http://localhost:3000 to view the page on the browser.
+This will the start the server at http://localhost:3000
 
 ## API Reference
 
