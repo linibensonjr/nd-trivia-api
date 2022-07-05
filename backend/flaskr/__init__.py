@@ -42,7 +42,7 @@ def create_app(test_config=None):
     @app.route('/categories', methods=['GET'])
     def get_categories():
         all_categories = Category.query.all()
-        total_categories = len(avail_categories)
+        total_categories = len(all_categories)
         avail_categories = {}
         for category in all_categories:
             avail_categories[category.id] = category.type
@@ -196,20 +196,24 @@ def create_app(test_config=None):
                 formatted_questions = [question.format() for question in get_questions]
 
             question_count = len(formatted_questions)
-            # print("Formatted Question", formatted_questions)
+            print("Formatted Question", formatted_questions)
 
             # Setup a random question
             randomizer = randrange(0, question_count, 1)
             for question in formatted_questions:
                 if question['id'] not in previous_questions:
                     question_queue = formatted_questions[randomizer]
-            # print("Queue", question_queue)
+                    # print("Queue", question_queue)
             if (len(previous_questions) == question_count):
                 return jsonify({"success":True})
+
+            
+            print("Remaining Formatted Question", len(formatted_questions))
 
             return jsonify ({
                         "success": True,
                         "question": question_queue})
+        
         except:
             abort(404)
 
