@@ -3,11 +3,12 @@ from sys import dllhandle
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-
+from dotenv import load_dotenv
 from flaskr import create_app
 from models import setup_db, Question, Category
 
 
+load_dotenv()
 class TriviaTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
 
@@ -15,8 +16,11 @@ class TriviaTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = "trivia"
-        self.database_path = "postgresql://{}:{}@{}/{}".format('ustudent','iniobong','localhost:5432', self.database_name)
+        self.database_name = os.getenv("DATABASE")
+        self.database_username = os.getenv("USER")
+        self.database_pwd = os.getenv("PWD")
+        self.database_host = os.getenv("HOST")
+        self.database_path = "postgresql://{}:{}@{}/{}".format(self.database_username, self.database_pwd, self.database_host, self.database_name)
         setup_db(self.app, self.database_path)
 
         self.test_question = {
@@ -70,12 +74,12 @@ class TriviaTestCase(unittest.TestCase):
 
 
     def test_delete_question(self):
-        res = self.client().delete('/questions/16')
+        res = self.client().delete('/questions/13')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
-        self.assertEqual(data["deleted"], '16')
+        self.assertEqual(data["deleted"], 13)
 
 
     def test_422_if_question_does_not_exist(self):
@@ -116,7 +120,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data["questions"])
-        self.assertEqual(len(data['questions']), 5)
+        self.assertEqual(len(data['questions']), 7)
 
 
     def test_search_not_found(self):
@@ -124,16 +128,14 @@ class TriviaTestCase(unittest.TestCase):
         res = self.client().post('/search', json=search)
         data = json.loads(res.data)
         
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertEqual(data["questions"], 0)
-        self.assertEqual(len(data['questions']), 0)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
 
 
     def test_start_quiz(self):
-        quiz_question = {'previous_questions': [9],'quiz_category': {
-                'type': 'Geography',
-                'id': '4'}
+        quiz_question = {'previous_questions': [],'quiz_category': {
+                'type': 'Sports',
+                'id': 6}
         }
         res = self.client().post('/quizzes', json=quiz_question)
         data = json.loads(res.data)
@@ -142,8 +144,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['question'])
 
-        self.assertEqual(data['question']['category'], 4)
-        self.assertEqual(data['question']['id'], 65)
+        self.assertEqual(data['question']['category'], 6)
+        self.assertEqual(data['question']['id'], 10)
         
 
     def test_404_start_quiz(self):
